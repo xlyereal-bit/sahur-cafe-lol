@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оплата — ТУНГ ТУНГ ТУНГ САХУР</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --wood-dark:#3E2723;
+    --wood:#5D4037;
+    --wood-light:#8D6E63;
+    --cream:#FDF3E1;
+    --yellow:#FFC300;
+    --red:#D32F2F;
+    --green:#2E7D32;
+    --ink:#241512;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Baloo 2', sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+
+  .card{
+    background:#fff;
+    border:3px solid var(--wood-dark);
+    border-radius:26px;
+    max-width:420px;
+    width:100%;
+    padding:34px;
+    box-shadow:0 20px 40px rgba(62,39,35,0.15);
+  }
+
+  .back{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--wood);
+    text-decoration:none;
+    font-size:0.9rem;
+    font-weight:700;
+    margin-bottom:18px;
+  }
+  .back:hover{color:var(--red);}
+
+  .logo-mini{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:800;
+    font-size:1rem;
+    color:var(--wood-dark);
+    margin-bottom:6px;
+  }
+  .logo-mini span{font-size:1.3rem;}
+
+  h1{
+    font-size:1.6rem;
+    color:var(--wood-dark);
+    margin-top:6px;
+    margin-bottom:4px;
+  }
+  .sub{
+    font-family:'Space Mono', monospace;
+    font-size:0.85rem;
+    color:var(--wood);
+    margin-bottom:24px;
+  }
+
+  .amount-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--cream);
+    border-radius:16px;
+    padding:16px 20px;
+    margin-bottom:26px;
+  }
+  .amount-row .label{font-size:0.9rem; color:var(--wood);}
+  .amount-row .value{font-size:1.6rem; font-weight:800; color:var(--wood-dark);}
+
+  label{
+    display:block;
+    font-size:0.85rem;
+    font-weight:700;
+    color:var(--wood-dark);
+    margin-bottom:6px;
+    margin-top:16px;
+  }
+  input{
+    width:100%;
+    font-family:'Space Mono', monospace;
+    font-size:0.95rem;
+    padding:12px 14px;
+    border:2px solid var(--wood-light);
+    border-radius:12px;
+    background:var(--cream);
+    color:var(--ink);
+    outline:none;
+    transition:border-color .2s;
+  }
+  input:focus{border-color:var(--red);}
+  .row2{display:flex; gap:12px;}
+  .row2 > div{flex:1;}
+
+  .pay-btn{
+    width:100%;
+    margin-top:28px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:1.05rem;
+    background:var(--yellow);
+    color:var(--wood-dark);
+    border:3px solid var(--wood-dark);
+    border-radius:999px;
+    padding:15px;
+    cursor:pointer;
+    transition:transform .15s ease;
+  }
+  .pay-btn:hover{transform:translateY(-2px);}
+  .pay-btn:active{transform:scale(0.97);}
+
+  .note{
+    text-align:center;
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--wood-light);
+    margin-top:16px;
+  }
+
+  /* SUCCESS STATE */
+  .success{
+    display:none;
+    text-align:center;
+  }
+  .success.show{display:block;}
+  .form-view.hide{display:none;}
+  .drum-icon{
+    font-size:3.2rem;
+    animation:pop .4s ease;
+  }
+  @keyframes pop{
+    0%{transform:scale(0.4); opacity:0;}
+    70%{transform:scale(1.1);}
+    100%{transform:scale(1); opacity:1;}
+  }
+  .success h2{
+    color:var(--wood-dark);
+    margin-top:12px;
+    font-size:1.5rem;
+  }
+  .success p{
+    color:var(--wood);
+    margin-top:8px;
+    font-size:0.95rem;
+  }
+  .success .order-id{
+    font-family:'Space Mono', monospace;
+    color:var(--red);
+    margin-top:14px;
+    font-size:0.9rem;
+  }
+  .home-btn{
+    display:inline-block;
+    margin-top:26px;
+    font-family:inherit;
+    font-weight:700;
+    background:var(--wood-dark);
+    color:var(--cream);
+    text-decoration:none;
+    border-radius:999px;
+    padding:13px 26px;
+  }
+  .home-btn:hover{background:var(--red);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <a class="back" href="tung-sahur-cafe.html">← вернуться в кафе</a>
+  <div class="logo-mini"><span>🪵</span> ТУНГ ТУНГ ТУНГ САХУР</div>
+
+  <div class="form-view" id="formView">
+    <h1>Оплата заказа</h1>
+    <div class="sub" id="orderSub">чек № ——</div>
+
+    <div class="amount-row">
+      <span class="label">К оплате</span>
+      <span class="value" id="amount">0₴</span>
+    </div>
+
+    <label for="cardName">Имя на карте</label>
+    <input id="cardName" type="text" placeholder="Как в кафе представитесь">
+
+    <label for="cardNumber">Номер карты</label>
+    <input id="cardNumber" type="text" placeholder="0000 0000 0000 0000" maxlength="19">
+
+    <div class="row2">
+      <div>
+        <label for="cardExp">Срок</label>
+        <input id="cardExp" type="text" placeholder="ММ/ГГ" maxlength="5">
+      </div>
+      <div>
+        <label for="cardCvc">CVC</label>
+        <input id="cardCvc" type="text" placeholder="123" maxlength="3">
+      </div>
+    </div>
+
+    <button class="pay-btn" id="payButton">Оплатить</button>
+    <div class="note">демо-страница оплаты — реальное списание не происходит</div>
+  </div>
+
+  <div class="success" id="successView">
+    <div class="drum-icon">🥁</div>
+    <h2>Оплата прошла!</h2>
+    <p>Заказ уже готовят под ритмичный стук барабана.</p>
+    <div class="order-id" id="successOrder">чек № ——</div>
+    <a class="home-btn" href="tung-sahur-cafe.html">Вернуться в кафе</a>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const total = params.get('total') || '0';
+  const order = params.get('order') || Math.floor(6000 + Math.random()*700);
+
+  document.getElementById('amount').textContent = total + '₴';
+  document.getElementById('orderSub').textContent = 'чек № ' + order;
+  document.getElementById('successOrder').textContent = 'чек № ' + order;
+
+  document.getElementById('payButton').addEventListener('click', ()=>{
+    document.getElementById('formView').classList.add('hide');
+    document.getElementById('successView').classList.add('show');
+  });
+
+  document.getElementById('cardNumber').addEventListener('input', e=>{
+    let v = e.target.value.replace(/\D/g,'').slice(0,16);
+    e.target.value = v.replace(/(.{4})/g,'$1 ').trim();
+  });
+  document.getElementById('cardExp').addEventListener('input', e=>{
+    let v = e.target.value.replace(/\D/g,'').slice(0,4);
+    if(v.length > 2) v = v.slice(0,2) + '/' + v.slice(2);
+    e.target.value = v;
+  });
+  document.getElementById('cardCvc').addEventListener('input', e=>{
+    e.target.value = e.target.value.replace(/\D/g,'').slice(0,3);
+  });
+</script>
+
+</body>
+</html>
